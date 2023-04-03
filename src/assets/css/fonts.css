@@ -1,0 +1,18 @@
+@import url(fontiran_fanum.css);
+@import url(Vazirmatn-FD-font-face.css);
+
+@font-face {
+	font-family: 'PelakFa';
+	src: url('../fonts/PelakFA-Regular.woff2') format('woff2'); /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+	font-weight: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'AdobeArabic';
+	src: url('../fonts/AdobeArabic.eot?#') format('eot'),	/* IE6–8 */
+			 url('../fonts/AdobeArabic.woff') format('woff'),	/* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+			 url('../fonts/AdobeArabic.ttf?#') format('ttf');	/* Saf3—5, Chrome4+, FF3.5, Opera 10+ */
+	font-weight: normal;
+	font-display: swap;
+}

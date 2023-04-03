@@ -1,0 +1,18 @@
+<?php
+/**
+ * @author Kambiz Zandi <kambizzandi@gmail.com>
+ */
+
+namespace shopack\base\frontend\widgets;
+
+use Yii;
+
+class ActiveForm extends \yii\bootstrap5\ActiveForm
+{
+	function init() {
+		// $this->options['data-pjax'] = true;
+
+		parent::init();
+	}
+
+}
