@@ -579,6 +579,14 @@ class RestClientQuery
       $this->_throwServerError($e);
     }
 
+    $header = $response->getHeader('WWW-Authenticate');
+    if (empty($header) == false) {
+      Yii::$app->user->logout();
+      Yii::$app->response->redirect(Yii::$app->getHomeUrl());
+      Yii::$app->response->send();
+      die();
+    }
+
     return $response;
   }
 
