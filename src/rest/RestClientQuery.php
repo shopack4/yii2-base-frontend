@@ -334,8 +334,22 @@ class RestClientQuery
       $id = $this->getIdFromWhere();
 
     if (empty($id))
-      return new $this->modelClass;
+      return null;
+      // return new $this->modelClass;
   		// throw new InvalidArgumentException('The id not provided');
+
+    $response = $this->_request('get', $this->_getUrl('element', $id), [
+      'query' => $this->_buildQueryParams(),
+    ]);
+
+    return $this->_populate($response, false);
+  }
+
+  public function restGet()
+  {
+    $this->fillWhereByRelation();
+
+    $id = $this->getIdFromWhere();
 
     $response = $this->_request('get', $this->_getUrl('element', $id), [
       'query' => $this->_buildQueryParams(),
@@ -384,7 +398,7 @@ class RestClientQuery
    * POST request
    * @inheritdoc
    */
-  public function restCreate(RestClientActiveRecord $model)
+  public function restPost(RestClientActiveRecord $model)
   {
     $options = [];
 
@@ -401,12 +415,16 @@ class RestClientQuery
     return $this->_populate($response, false, $model);
   }
 
+  public function restCreate(RestClientActiveRecord $model)
+  {
+    return $this->restPost($model);
+  }
+
   /**
    * PUT request
-   * // TODO non-json (i.e. form-data) payload
    * @inheritdoc
    */
-  public function restUpdate(RestClientActiveRecord $model)
+  public function restPut(RestClientActiveRecord $model)
   {
     $options = [];
 
@@ -423,6 +441,11 @@ class RestClientQuery
     $response = $this->_request('put', $this->_getUrl('element', $model->getPrimaryKey()), $options);
 
     return $this->_populate($response, false);
+  }
+
+  public function restUpdate(RestClientActiveRecord $model)
+  {
+    return $this->restPut($model);
   }
 
 	public function restUpdateAll($attributes, $condition = '', $params = [])

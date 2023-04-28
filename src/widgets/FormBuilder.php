@@ -330,12 +330,18 @@ class FormBuilder extends \yii\base\Component
 									$staticValueLookup = $field['staticValueLookup'];
 									$staticValue = ($staticValueLookup[$model->$fieldName] ?? '');
 								} else
-									$staticValue = ''; //TODO: raise error?
+									$staticValue = $model->$fieldName; //TODO: raise error?
 
 								if (empty($staticValue) && !empty($field['staticNullValueText']))
 									$staticValue = $field['staticNullValueText'];
 
-								$fieldOptions['staticValue'] = $staticValue;
+								$staticFormat = ArrayHelper::remove($field, 'staticFormat', null);
+
+								if ($staticFormat)
+									$fieldOptions['staticValue'] = Yii::$app->formatter->format($staticValue, $staticFormat);
+								else
+									$fieldOptions['staticValue'] = $staticValue;
+
 								$_field = $this->form->$fnField($model, $fieldName, $fieldOptions)->staticInput();
 
 								$_hidden = Html::activeHiddenInput($model, $fieldName);

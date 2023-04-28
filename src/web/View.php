@@ -193,7 +193,7 @@ class View extends \yii\web\View
 			return Html::div($output, ['class' => 'modal-body']);
 		else {
 			$posBeginForm = strpos($output, '>', $posBeginForm);
-			if ($posBeginForm === false) //ERROR
+			if ($posBeginForm === false) //Error
 				return Html::div($output, ['class' => 'modal-body']);
 			++$posBeginForm;
 
@@ -203,7 +203,7 @@ class View extends \yii\web\View
 
 		//find end form tag
 		$posEndForm = stripos($output, '</form>');
-		if ($posEndForm === false) //ERROR
+		if ($posEndForm === false) //Error
 			return Html::div($output, ['class' => 'modal-body']);
 		$endPart = substr($output, $posEndForm);
 		$output = substr($output, 0, $posEndForm);

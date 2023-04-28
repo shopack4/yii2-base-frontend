@@ -73,7 +73,8 @@ if (result.redirect != false) {
 		}
 	}
 };
-		");
+");
+		$modalDoneScript_OK = ArrayHelper::remove($config, 'modalDoneScript_OK', "");
 		$scripts = ArrayHelper::remove($config, 'scripts', [
 			'modalDone' => "
 				if ((result.status == undefined) || (result.status == 'OK')) {
@@ -83,11 +84,12 @@ if (result.redirect != false) {
 							\$modalDiv.modal('hide');
 							clearInterval(timerid);
 							timerid = null;
+							{$modalDoneScript_OK}
 							{$modalDoneInternalScript_OK}
 						},
 						{$donewait});
 					};
-				} else { //if (result.status == 'ERROR') {
+				} else { //if (result.status == 'Error') {
 					$('#{$errorspan}').html(result.error);
 				}
 			"

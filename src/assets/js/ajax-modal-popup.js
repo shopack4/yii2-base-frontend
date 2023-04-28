@@ -1,4 +1,4 @@
-function doSowModal(title, url, popupSize, popupTall) {
+function doSowModal(title, url, popupSize, popupTall, localdbs) {
 		// var popupSize = $(this).data('popup-size');
 		if (popupSize === undefined)
 			popupSize = 'sm';
@@ -26,15 +26,35 @@ function doSowModal(title, url, popupSize, popupTall) {
 
 		modalContentObject.html(modalElement.data('loader'));
 
+		var ajaxData = {
+			ajax_popupSize: popupSize,
+			ajax_popupTall: popupTall,
+		};
+
+		//'localdbs' => 'basketdata=basket,otheritem',
+		if (localdbs !== undefined) {
+			dbs = localdbs.split(',');
+			dbs.forEach(item => {
+				parts = item.split('=');
+				if (parts.length == 1) {
+					key = val = item;
+				} else {
+					key = parts[0];
+					val = parts[1];
+				}
+
+				data = window.localStorage.getItem(val);
+				if (data)
+					ajaxData[key] = data;
+			});
+		}
+
 // console.log('v2.5');
 		$.ajax({
 			url: url,
-			// type: "POST", //error in csrf checking, remove '{{action}}' => ['post'] at models controller in behaviors.verb actions
+			type: "POST", //error in csrf checking, remove '{{action}}' => ['post'] at models controller in behaviors.verb actions
 			async: true,
-			data: {
-				ajax_popupSize: popupSize,
-				ajax_popupTall: popupTall,
-			},
+			data: ajaxData,
 		})
 		.done(function(result) {
 // console.log(result);
@@ -85,7 +105,8 @@ function doSowModal(title, url, popupSize, popupTall) {
 		var url = $(this).attr('value');
 		var popupSize = $(this).data('popup-size');
 		var popupTall = $(this).data('popup-tall');
+		var localdbs = $(this).data('localdbs');
 
-		doSowModal(title, url, popupSize, popupTall);
+		doSowModal(title, url, popupSize, popupTall, localdbs);
 	});
 })(jQuery || this.jQuery || window.jQuery);

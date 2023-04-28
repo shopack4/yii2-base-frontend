@@ -16,11 +16,12 @@ class Html extends \yii\bootstrap5\Html
 			$text = Yii::t('app', 'Create');
 
 		$url = array_replace_recursive(['create'], $url ?? []);
+		$modal = ArrayHelper::remove($options, 'modal', true);
 
 		return static::a($text, $url, array_replace_recursive([
 			'title' => Yii::t('app', 'Create'),
 			'class' => ['btn', 'btn-sm', 'btn-success'],
-			'modal' => true,
+			'modal' => $modal,
       // 'data-popup-size' => 'lg',
 	 	], $options));
 	}
@@ -30,7 +31,6 @@ class Html extends \yii\bootstrap5\Html
 			$text = Yii::t('app', 'Update');
 
 		$url = array_replace_recursive(['update'], $url ?? []);
-
 		$modal = ArrayHelper::remove($options, 'modal', true);
 
 		return static::a($text, $url, array_replace_recursive([
@@ -182,19 +182,19 @@ class Html extends \yii\bootstrap5\Html
 		if (empty($createdAt) == false) {
 			$ret[] = 'ایجاد: ' .	Yii::$app->formatter->asJalaliWithTime($createdAt);
 			if (!empty($createdBy))
-				$ret[] = $createdBy->actorName();
+				$ret[] = $createdBy->actorName;
 		}
 
 		if (empty($updatedAt) == false) {
 			$ret[] = 'ویرایش: ' .	Yii::$app->formatter->asJalaliWithTime($updatedAt);
 			if (!empty($updatedBy))
-				$ret[] = $updatedBy->actorName();
+				$ret[] = $updatedBy->actorName;
 		}
 
 		if (empty($removedAt) == false) {
 			$ret[] = 'حذف: ' .	Yii::$app->formatter->asJalaliWithTime($removedAt);
 			if (!empty($removedBy))
-				$ret[] = $removedBy->actorName();
+				$ret[] = $removedBy->actorName;
 		}
 
 		return Html::tag('small', implode("<br>", $ret));
