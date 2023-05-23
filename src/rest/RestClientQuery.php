@@ -205,8 +205,7 @@ class RestClientQuery
         $this->requestHeaders['Authorization'] = 'Bearer ' . $jwt;
     }
 
-    $httpClientConfig = array_merge(
-      [
+    $httpClientConfig = array_merge([
         /* @link http://docs.guzzlephp.org/en/latest/quickstart.html */
         'base_uri' => $this->_getUrl('api'),
         /* @link http://docs.guzzlephp.org/en/latest/request-options.html#headers */
@@ -215,6 +214,9 @@ class RestClientQuery
       $this->httpClientExtraConfig
     );
     $this->httpClient = new Client($httpClientConfig);
+
+    if (Yii::$app->isJustForMe)
+      $this->addUrlParameter('justForMe', 1);
   }
 
   public function andWhere($condition, $params = [])
@@ -723,9 +725,12 @@ class RestClientQuery
           $attrs = $this->_getProps($value);
 
           //TODO: check if $value is array for hasMany
+
           $relatedModel = $relationModelClass::instantiate($attrs);
           $relationModelClass::populateRecord($relatedModel, $attrs);
           $model->populateRelation($name, $relatedModel);
+
+          //todo: populate nested relations
         }
       }
 

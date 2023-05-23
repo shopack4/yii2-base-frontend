@@ -25,4 +25,14 @@ class BaseController extends \yii\web\Controller
 		return $resultArray;
 	}
 
+	public function redirect($url, $statusCode = 302)
+	{
+		if (is_array($url) && (strtolower($url[0] == 'post'))) {
+			//make post
+
+		}
+
+		return parent::redirect($url, $statusCode);
+	}
+
 }

@@ -61,6 +61,37 @@ class ActiveForm extends \kartik\form\ActiveForm
 		$noAjax = ArrayHelper::remove($config, 'noAjax', false);
 		$modalDoneInternalScript_OK = ArrayHelper::remove($config, 'modalDoneInternalScript_OK', "
 if (result.redirect != false) {
+// console.log(result.redirect);
+	if (result.redirect !== null && result.redirect !== undefined && result.redirect === Object(result.redirect)) {
+
+		var urlobject = result.redirect;
+
+		if (urlobject[0] == 'post') {
+			var postform = document.createElement('form');
+			postform.setAttribute('method', urlobject[0]);
+			postform.setAttribute('action', urlobject[1]);
+
+			delete urlobject[0];
+			delete urlobject[1];
+
+			for (const key in urlobject) {
+				var hiddenField = document.createElement('input');
+				hiddenField.setAttribute('name', key);
+				hiddenField.setAttribute('value', urlobject[key]);
+				postform.appendChild(hiddenField);
+			}
+
+			document.body.appendChild(postform);
+			postform.submit();
+			document.body.removeChild(postform);
+
+			return;
+		}
+
+		//convert from array to string for next check
+		result.redirect = urlobject[0];
+	}
+
 	if (result.redirect) {
 		window.location.href = result.redirect;
 		// if (result.redirect.indexOf('#') >= 0)

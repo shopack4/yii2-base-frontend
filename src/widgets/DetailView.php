@@ -15,7 +15,8 @@ use shopack\base\common\helpers\ArrayHelper;
 class DetailView extends BaseDetailView
 {
 	public $enableEditMode = false;
-	public $labelColOptions = ['style' => 'width:25%; white-space:nowrap'];
+	// public $labelColOptions = ['style' => 'width:25%; white-space:nowrap'];
+	public $labelColOptions = ['class' => ['w-25', 'text-nowrap']];
 	public $hAlign = BaseDetailView::ALIGN_LEFT;
 	public $vAlign = BaseDetailView::ALIGN_TOP;
 	public $cols = 1;

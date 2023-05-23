@@ -5,15 +5,21 @@
 
 namespace shopack\base\frontend\widgets;
 
+use Yii;
 use yii\web\JsExpression;
 
 class Select2 extends \kartik\widgets\Select2
 {
 	public function init()
 	{
-		if (isset($_GET['ajax_popupSize'])) {
+		$isModal = Yii::$app->request->isAjax;
+		if ($isModal) {
+			$ajax_popupSize = 'sm';
+			if (isset($_GET['ajax_popupSize']))
+				$ajax_popupSize = $_GET['ajax_popupSize'];
+
 			$this->pluginOptions = array_replace_recursive($this->pluginOptions, [
-				'dropdownParent' => new JsExpression("$('#modal-{$_GET['ajax_popupSize']}')"),
+				'dropdownParent' => new JsExpression("$('#modal-{$ajax_popupSize}')"),
 			]);
 		}
 
